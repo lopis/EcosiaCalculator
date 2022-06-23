@@ -43,11 +43,11 @@ function AddToHistoryList(resultadd) {
 	//this sets the list width according to the widest element in the list
 	//This is super ugly, but I didnt manage to get the actual size of the divs so i had to make an approximation of the space
 	//that the text would take up. I made a few tests and each character has an meanvalue
-	if(resultadd.length*8+120>listmaxwidth){
-		listmaxwidth=resultadd.length*8+120
-		$('#historydropdown').width(listmaxwidth)
-		$('#historycontents').width(listmaxwidth)
-	}
+	// if(resultadd.length*8+120>listmaxwidth){
+	// 	listmaxwidth=resultadd.length*8+120
+	// 	document.getElementById('historydropdown').width(listmaxwidth)
+	// 	document.getElementById('historycontents').width(listmaxwidth)
+	// }
 
 	//I should be able to have one function for both of these
 	//If you click on the equation or result in the table, the corresponding result
@@ -56,8 +56,8 @@ function AddToHistoryList(resultadd) {
 		printOutput(historyresult.innerText)
 		printHistory("Ans = " + Ans)
 		set_mouse(historyresult.innerText.toString().length)
-		$('#historydropdown').hide();
-		$('#historybutton').css('color', '#919191');
+		document.getElementById('historydropdown').classList.add('hidden');
+		document.getElementById('historybutton').css('color', '#919191');
 		set_icon_color()
 		ChangeAns=0;
 	};
@@ -65,9 +65,9 @@ function AddToHistoryList(resultadd) {
 		printOutput(historyequation.innerText)
 		printHistory("Ans = " + Ans)
 		set_mouse(historyequation.innerText.toString().length)
-		$('#historydropdown').hide();
+		document.getElementById('historydropdown').classList.add('hidden');
 		
-		$('#historybutton').css('color', '#919191');
+		document.getElementById('historybutton').css('color', '#919191');
 		set_icon_color()
 		ChangeAns=0;
 	};
@@ -110,7 +110,7 @@ function set_mouse(pos) {
 	var range = document.createRange();
 	var sel = window.getSelection();
 	if(as.innerText==""){
-		$('#output-value').focus()
+		document.getElementById('output-value').focus()
 		return
 	}
 	try {
@@ -139,27 +139,27 @@ function printOutput(num) {
 	}
 }
 function set_icon_color(){
-	$('#historyicongreen').toggle();
+	document.getElementById('historyicongreen').classList.toggle('hidden');
 };
 
 
 //This is for the dropdown history menu, to toggle visability and toggle colors
-$(document).ready(function(){
-    $('#historybutton').click(function(event){
-        event.stopPropagation();
-		 $('#historydropdown').toggle();
+document.addEventListener('DOMContentLoaded', function(){
+    document.getElementById('historybutton').addEventListener('click', function(event){
+			event.stopPropagation();
+		 document.getElementById('historydropdown').classList.toggle('hidden');
 		 set_icon_color()
-		 if($('#historydropdown').is(":visible")==false){
+		 if(!document.getElementById('historydropdown').classList.contains('hidden')){
 			set_mouse(caret)
 		 }
 		});
-    $('#historydropdown').on("click", function (event) {
+    document.getElementById('historydropdown').addEventListener("click", function (event) {
 		event.stopPropagation();
 
     });
 });
 //if you put the cursor inside a expression like "sin(", it will be moved to the closest side.
-$('#output-value').on("click", function () {
+document.getElementById('output-value').addEventListener("click", function () {
 	if(document.getSelection().anchorOffset-document.getSelection().focusOffset==0){
 		caret = get_caret_position();
 		output=getOutput()
@@ -184,16 +184,16 @@ $('#output-value').on("click", function () {
 })
 
 //adds the blue rim when the display is clicked
-$('#output-value').focus(function(e){
-	$('#results').removeClass("output-normal output-hover").addClass("output-blue")
+document.getElementById('output-value').focus(function(e){
+	document.getElementById('results').removeClass("output-normal output-hover").addClass("output-blue")
 })
-$('#output-value').blur(function(e){
-	$('#results').removeClass("output-blue").addClass("output-normal output-hover")
+document.getElementById('output-value').blur(function(e){
+	document.getElementById('results').removeClass("output-blue").addClass("output-normal output-hover")
 })
 
 
 //Handles focus when you click on various things
-$(document).mousedown(function (e) {
+document.addEventListener('mousedown', function (e) {
 	//I used an Iframe for this, so whenever a click outside the calculator was detected, 
 	//the calculator was blurred. This will probably work different for you
 	if(e.target.id==""){
@@ -205,10 +205,10 @@ $(document).mousedown(function (e) {
 	else if(/(history(\-value)?$|results)/i.test(e.target.id)){
 		//since its the color is a toggle, we have to be careful to check if the dropdown actually Inverses state from invisable
 		//to visable
-		if($('#historydropdown').is(":visible")){
+		if(document.getElementById('historydropdown').classList.contains('visible')){
 			set_icon_color()
 		}
-		$('#historydropdown').hide();
+		document.getElementById('historydropdown').classList.add('hidden');
 		event.preventDefault();
 		document.getElementById("output-value").focus();
 		//There were problems with set_mouse when you had text selected
@@ -222,10 +222,10 @@ $(document).mousedown(function (e) {
 	else{
 		//since its the color is a toggle, we have to be careful to check if the dropdown actually Inverses state from invisable
 		//to visable
-		if($('#historydropdown').is(":visible")){
+		if(document.getElementById('historydropdown').classList.contains('visible')){
 			set_icon_color()
 		}
-		$('#historydropdown').hide();
+		document.getElementById('historydropdown').classList.add('hidden');
 		event.preventDefault();
 		document.getElementById("output-value").focus();
 		//There were problems with set_mouse when you had text selected
@@ -275,49 +275,49 @@ for (var i = 0; i < operator.length; i++) {
 			if (RadiansOn == 0) {
 				document.getElementById("RadUpper").innerText = "Rad";
 				document.getElementById("RadLower").innerText = "Deg";
-				$('#RadDeg').removeClass("trig-color").addClass("trig-hover")
+				document.getElementById('RadDeg').removeClass("trig-color").addClass("trig-hover")
 				RadiansOn = 1;
 			}
 			else {
 				document.getElementById("RadUpper").innerText = "Deg";
 				document.getElementById("RadLower").innerText = "Rad";
-				$('#RadDeg').addClass("trig-color trigactive-hover")
+				document.getElementById('RadDeg').addClass("trig-color trigactive-hover")
 				RadiansOn = 0;
 			}
 		}
 		//Inverse the trig functions to their inverse
 		else if (this.id == "Inverse") {
 			if (Inv == 1) {
-				$('#Inverse').addClass("trig-color trigactive-hover")
+				document.getElementById('Inverse').addClass("trig-color trigactive-hover")
 
-				$("#sin").val("asin()");
-				$("#sin").html("asin"); //Html is the name shown and val is the value taken
-				$('#sin').addClass("trig-color trigactive-hover")
+				document.querySelector("#sin").val("asin()");
+				document.querySelector("#sin").html("asin"); //Html is the name shown and val is the value taken
+				document.getElementById('sin').addClass("trig-color trigactive-hover")
 
-				$("#cos").val("acos()");
-				$("#cos").html("acos");
-				$('#cos').addClass("trig-color trigactive-hover")
+				document.querySelector("#cos").val("acos()");
+				document.querySelector("#cos").html("acos");
+				document.getElementById('cos').addClass("trig-color trigactive-hover")
 
-				$("#tan").val("atan()");
-				$("#tan").html("atan");
-				$('#tan').addClass("trig-color trigactive-hover")
+				document.querySelector("#tan").val("atan()");
+				document.querySelector("#tan").html("atan");
+				document.getElementById('tan').addClass("trig-color trigactive-hover")
 				Inv = 0;
 				return
 			}
 			if (Inv == 0) {
-				$('#Inverse').removeClass("trig-color trigactive-hover").addClass("trig-hover")
+				document.getElementById('Inverse').removeClass("trig-color trigactive-hover").addClass("trig-hover")
 		
-				$("#sin").val("sin()");
-				$("#sin").html("sin"); //Html is the name shown and val is the value taken
-				$('#sin').removeClass("trig-color trigactive-hover").addClass("trig-hover")
+				document.querySelector("#sin").val("sin()");
+				document.querySelector("#sin").html("sin"); //Html is the name shown and val is the value taken
+				document.getElementById('sin').removeClass("trig-color trigactive-hover").addClass("trig-hover")
 
-				$("#cos").val("cos()");
-				$("#cos").html("cos");
-				$('#cos').removeClass("trig-color trigactive-hover").addClass("trig-hover")
+				document.querySelector("#cos").val("cos()");
+				document.querySelector("#cos").html("cos");
+				document.getElementById('cos').removeClass("trig-color trigactive-hover").addClass("trig-hover")
 
-				$("#tan").val("tan()");
-				$("#tan").html("tan");
-				$('#tan').removeClass("trig-color trigactive-hover").addClass("trig-hover")
+				document.querySelector("#tan").val("tan()");
+				document.querySelector("#tan").html("tan");
+				document.getElementById('tan').removeClass("trig-color trigactive-hover").addClass("trig-hover")
 				Inv = 1;
 				return
 			}
@@ -326,7 +326,7 @@ for (var i = 0; i < operator.length; i++) {
 			printHistory("");
 			printOutput("");
 			ChangeAns=0
-			$('#output-value').focus()
+			document.getElementById('output-value').focus()
 		//backspace should remove entire expression etc "sin", also it should remove corresponding brackets
 		} else if (this.id == "backspace") {
 			{//If an area is selected it should get erased
@@ -344,7 +344,7 @@ for (var i = 0; i < operator.length; i++) {
 					var RemoveComplete = /^(.*(\(.*\))*.*)(\))/ 
 					var secondpart = secondpart.replace(RemoveComplete, "$1")
 					set_mouse(caretBefore)
-					$('#output-value').focus()
+					document.getElementById('output-value').focus()
 				}
 				if (holeword.test(firstpart)) {
 					//We dont have to test if it matches, because it always matches

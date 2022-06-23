@@ -1,5 +1,5 @@
 //When typing in the input window
-$("#output-value").on("keydown", function (e) {
+document.querySelector("#output-value").addEventListener("keydown", function (e) {
 
 	//get selected text
 	selection=[document.getSelection().anchorOffset,document.getSelection().focusOffset]
@@ -393,7 +393,7 @@ $("#output-value").on("keydown", function (e) {
 })
 
 //This is a super ugly fix to the strange behavior of "^"
-$("#output-value").on('input', function() {
+document.querySelector("#output-value").addEventListener('input', function() {
 	output = getOutput();
 	caret = get_caret_position();
 
